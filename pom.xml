@@ -12,7 +12,7 @@
   <name>A Camel Route</name>
 
   <properties>
-    <spring-version>5.2.4.RELEASE</spring-version>
+    <spring-version>3.1.1.RELEASE</spring-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
@@ -74,7 +74,22 @@
             <artifactId>spring-jdbc</artifactId>
             <version>${spring-version}</version>
         </dependency>
-
+         <dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-orm</artifactId>
+		    <version>${spring-version}</version>
+		 </dependency>
+		<!-- Hibernate framework -->
+		<dependency>
+	        <groupId>org.hibernate</groupId>
+	        <artifactId>hibernate-core</artifactId>
+	        <version>3.6.3.Final</version>
+    	</dependency>
+    	<dependency>
+	        <groupId>javassist</groupId>
+	        <artifactId>javassist</artifactId>
+	        <version>3.12.1.GA</version>
+   		 </dependency>
         <!-- jdbc -->
         <dependency>
             <groupId>mysql</groupId>

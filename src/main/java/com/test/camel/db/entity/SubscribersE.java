@@ -79,7 +79,7 @@ public class SubscribersE {
 	}
 	@Override
 	public String toString() {
-		return "Sbscribers [id=" + id + ", name=" + name + ", msisdn=" + msisdn + ", age=" + age + ", age_discount="
+		return "SubscribersEntity [id=" + id + ", name=" + name + ", msisdn=" + msisdn + ", age=" + age + ", age_discount="
 				+ age_discount + "]";
 	}
 	

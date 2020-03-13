@@ -2,9 +2,11 @@ package com.test.camel.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.test.camel.cache.objects.CachedObject;
 
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Subscribers {
 	
 	private int id;

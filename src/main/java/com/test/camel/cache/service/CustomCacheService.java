@@ -4,12 +4,26 @@ import org.springframework.stereotype.Controller;
 
 import com.test.camel.cache.manager.CacheManager;
 import com.test.camel.cache.objects.CachedObject;
+import com.test.camel.db.dao.SubscriberDao;
+import com.test.camel.db.entity.SubscribersE;
 import com.test.camel.domain.JsonResponse;
 import com.test.camel.domain.Subscribers;
+import com.test.camel.utils.MappingUtils;
 @Controller
 
 public class CustomCacheService {
 	
+	private SubscriberDao subDao;
+	public SubscriberDao getSubDao() {
+		return subDao;
+	}
+
+
+	public void setSubDao(SubscriberDao subDao) {
+		this.subDao = subDao;
+	}
+
+
 	public CustomCacheService() {
 		Subscribers sub1=new Subscribers();
 		sub1.setId(1);
@@ -45,6 +59,16 @@ public class CustomCacheService {
 	    
 	    if(o==null) {
 	    	System.out.println("Object in cache is null need to fetch from DB if possible");
+			
+			 
+			  SubscribersE sube = getSubDao().getById(code); 
+			  if(sube!=null) {
+				  System.out.println("retrieved from DB:"+sube.toString()); 
+				  sub = MappingUtils.maptoDomain(sube); 
+				  addToCache(sub);
+			  }
+			 
+	    	
 	    }else {
 	    	System.out.println("Received object from cache -- now extracting the actual subscriber");
 	    	if(o.getObject() instanceof Subscribers)
@@ -76,12 +100,14 @@ public class CustomCacheService {
 		minute.  Give the
 		       object some unique identifier.
 		    */
-		    CachedObject co = new CachedObject(sub, code, 5);
+		    CachedObject co = new CachedObject(sub, code, 1);
 		    /* Place the object into the cache! */
 		    CacheManager.putCache(co);
 		    added = new JsonResponse();
 		    added.setMessage("Added to Cache Successfully");
 		    added.setStatusCode("200");
+		   
+		    
 		}catch (Exception e) {
 			System.out.println("Could not insert:"+e.getMessage());
 			e.printStackTrace();

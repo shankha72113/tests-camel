@@ -11,8 +11,10 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.processor.LoopProcessor;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 
+import com.test.camel.db.entity.SubscribersE;
 import com.test.camel.domain.Subscribers;
 import com.test.camel.processor.JsonProcessor;
+import com.test.camel.utils.MappingUtils;
 
 public class JsonRouteBuilder extends RouteBuilder{
 
@@ -27,16 +29,25 @@ public class JsonRouteBuilder extends RouteBuilder{
 		JacksonDataFormat jsonDataFormat = new JacksonDataFormat();
 		jsonDataFormat.useList();
 		jsonDataFormat.setUnmarshalType(Subscribers.class);
+		
+
+		
+		
 		from("file:src/data?noop=true")
 		.log("Picked up ${file:name}")
 		.choice()		     
 			.when(simple("${file:name.ext} contains 'json'"))
+			    .routeId("JsonRoute")
 				.log("A JSON File")
 				   .unmarshal(jsonDataFormat) .process(new JsonProcessor()) 
 				   .split(body())
-				   .marshal().json(JsonLibrary.Jackson) .log("${body}")
+				   .marshal()
+				   .json(JsonLibrary.Jackson) 
+				   .log("${body}")
+				   .to("bean:subscriberDao?method=saveSubscriber")
 				   .to("jetty:http://0.0.0.0:8080/rest/custcahe/addToCache")
-				   .end();
+				   .log("REST Status: :::: ${body}")
+				       .end();
 			/*.otherwise()
 				.log("Not a JSON File") 
 				.to("file:target/messages/others");*/

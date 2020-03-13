@@ -40,7 +40,6 @@ public class RestRouteBuilder extends RouteBuilder {
 
         // define the rest service
         rest("/custcahe").consumes("application/json").produces("application/json")
-           
             .get("/getFromCache/{code}").outType(Subscribers.class).description("Returns the items currently in the cache depending upon hashcode as key")
                 .to("bean:customCacheService?method=getFromCache(${header.code})")
             // get accepts CartDto
