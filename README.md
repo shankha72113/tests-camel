@@ -9,3 +9,8 @@ Camel Tests I have done recently
 6. Then the same route marshall individual part (a json chunk as desired) and calls the rest service mentioned in point 2.
 7. All are running from a maven build by means of maven compile exec:java as developed using java DSL.
 8. Package is “jar” but I have learnt how to convert to “bundle” using maven-bundle plugin and install in local Karaf.
+9. MySQL DB Support has been added with Spring ORM with Hibernate.
+10. Now application parses the JSON file and inserts into the Database as well as in the Cache.
+11. curl -v http://127.0.0.1:8080/rest/custcahe/getFromCache/8 for example retrieves data from cache initially.
+12. After 1 minute cache gets expired. Then the same query at step 11, searches data from DB and if found adds to cache.
+13. Next time if curl -v http://127.0.0.1:8080/rest/custcahe/getFromCache/8 is executed again before expiration of cache, the data is retrieved from cache itself.
